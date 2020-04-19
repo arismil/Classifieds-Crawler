@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
-import scrapy
 
-from ..items import IphonecrawlerItem
+import scrapy
 
 
 class IphonespiderSpider(scrapy.Spider):
@@ -19,12 +18,7 @@ class IphonespiderSpider(scrapy.Spider):
                 'price': iphone.xpath(PRICE_SELECTOR).get(),
                 'type': iphone.xpath(CLASSIFIED_TYPE_SELECTOR).get()
             }
-
-            """
-            GIA POLES SELIDES
-            time.sleep(5)
-            NEXT_PAGE_SELECTOR = '/html/body/div[1]/main/div/div/div/div/div[2]/div/div[1]/div/ul/li[' \
-                                 '"@class="ipsPagination_next"]/a/@href '
+            NEXT_PAGE_SELECTOR = '/html/body/div[1]/main/div/div/div/div/div[2]/div/div[1]/div/ul/li[@class="ipsPagination_next"]/a/@href'
             next_page = response.xpath(NEXT_PAGE_SELECTOR).get()
             if next_page:
                 print(next_page)
@@ -32,4 +26,3 @@ class IphonespiderSpider(scrapy.Spider):
                     response.urljoin(next_page),
                     callback=self.parse
                 )
-                """
