@@ -1,4 +1,8 @@
 import csv
+import re
+import numpy as np
+import pandas as pd
+import xlwt
 from collections import Counter
 import nltk
 import string
@@ -6,7 +10,7 @@ from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords
 from nltk.stem.porter import PorterStemmer
 from nltk.tokenize import RegexpTokenizer
-#nltk.download('wordnet')
+# nltk.download('wordnet')
 from nltk.stem.wordnet import WordNetLemmatizer
 import math
 
@@ -17,10 +21,12 @@ import plotly.graph_objs as go
 # csv file name
 filename = "iphone.csv"
 
-# initializing the titles and rows list
 fields = []
 rows = []
-iphones = []
+description = []
+iphone_name = []
+iphone_size = []
+iphone_prices = []
 prices = []
 # reading csv file
 with open(filename, 'r', encoding="utf8") as csvfile:
@@ -33,7 +39,7 @@ with open(filename, 'r', encoding="utf8") as csvfile:
     # extracting each data row one by one
     for row in csvreader:
         rows.append(row)
-        iphones.append(row[0])
+        description.append(row[0])
         prices.append(row[1])
 
     # get total number of rows
@@ -48,7 +54,10 @@ with open(filename, 'r', encoding="utf8") as csvfile:
 #     # parsing each column of a row
 #     print(row)
 #     print('\n')
-for line in range(len(iphones)):
-    iphones[line] = iphones[line].lower()
-    iphones[line] = iphones[line].split()
-    print(iphones[line])
+for line in range(len(description)):
+    description[line] = description[line].lower()
+    description[line] = word_tokenize(description[line])
+    # if match:
+    #     iphone_name.append()
+
+print(description[0])
