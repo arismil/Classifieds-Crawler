@@ -1,63 +1,35 @@
-import csv
 import re
-import numpy as np
-import pandas as pd
-import xlwt
-from collections import Counter
-import nltk
-import string
-from nltk.tokenize import word_tokenize
-from nltk.corpus import stopwords
-from nltk.stem.porter import PorterStemmer
-from nltk.tokenize import RegexpTokenizer
-# nltk.download('wordnet')
-from nltk.stem.wordnet import WordNetLemmatizer
-import math
 
-from plotly import __version__
-from plotly.offline import download_plotlyjs, init_notebook_mode, plot, iplot
-import plotly.graph_objs as go
+import pandas
 
-# csv file name
-filename = "iphone.csv"
+# load the dataset
+dataset = pandas.read_csv('iphone.csv')
+dataset.head()
 
-fields = []
-rows = []
-description = []
-iphone_name = []
-iphone_size = []
-iphone_prices = []
-prices = []
-# reading csv file
-with open(filename, 'r', encoding="utf8") as csvfile:
-    # creating a csv reader object
-    csvreader = csv.reader(csvfile)
+# words to remove from dataset
+noise_words = ["iphone", "με", "apple"]
+stop_words = set(noise_words)
 
-    # extracting field names through first row
-    fields = next(csvreader)
+# get price
+dataset['price_normalized'] = dataset['price'].apply(lambda x: str(x).split(",")[0])
+# measure word count
+dataset['word_count'] = dataset['name'].apply(lambda x: len(str(x).split(" ")))
+# word frequency tables
+frequent_words = pandas.Series(' '.join(dataset['name']).split()).value_counts()[:20]
+rare = pandas.Series(' '.join(dataset['name']).split()).value_counts()[-20:]
 
-    # extracting each data row one by one
-    for row in csvreader:
-        rows.append(row)
-        description.append(row[0])
-        prices.append(row[1])
+for i in range(0, 109):
+    # Remove punctuations
+    text = re.sub('[^a-zA-Z]', ' ', dataset['name'][i])
 
-    # get total number of rows
-    print("Total no. of rows: %d" % csvreader.line_num)
+    # Convert to lowercase
+    text = text.lower()
 
-# # printing the field names
-# print('Field names are:' + ', '.join(field for field in fields))
-#
-# #  printing first 5 rows
-# print('\nFirst 5 rows are:\n')
-# for row in iphones[:5]:
-#     # parsing each column of a row
-#     print(row)
-#     print('\n')
-for line in range(len(description)):
-    description[line] = description[line].lower()
-    description[line] = word_tokenize(description[line])
-    # if match:
-    #     iphone_name.append()
+    # remove tags
+    text = re.sub("&lt;/?.*?&gt;", " &lt;&gt; ", text)
 
-print(description[0])
+    # remove special characters and digits
+    text = re.sub("(\\d|\\W)+", " ", text)
+    print(text)
+    ##Convert to list from string
+    text = text.split()
