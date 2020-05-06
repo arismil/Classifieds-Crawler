@@ -1,9 +1,7 @@
-import re
 
-#Check if the string starts with "The" and ends with "Spain":
+iphones = ['pro']
 
-txt = "iphone xs max silver 64"
-x = re.findall(r"iphone\s([6-8]s?|xs?)\s(max|plus)?", txt)
+model = ['11pro max']
 
-if x:
-    print(x[0][0])
+if iphones in model:
+    print(True)
