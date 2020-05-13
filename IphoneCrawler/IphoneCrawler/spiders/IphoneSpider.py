@@ -13,10 +13,12 @@ class IphonespiderSpider(scrapy.Spider):
             PRICE_SELECTOR = './div[1]/p/span/strong/text()'
             NAME_SELECTOR = './div[2]/h4/div/a/text()'
             CLASSIFIED_TYPE_SELECTOR = './div[3]/ul/li[1]/span[@class="ipsBadge ipsBadge_positive"]/text()'
+            LINK_SELECTOR = './div[2]/h4/div/a/@href'
             yield {
                 'name': iphone.xpath(NAME_SELECTOR).get(),
                 'price': iphone.xpath(PRICE_SELECTOR).get(),
-                'type': iphone.xpath(CLASSIFIED_TYPE_SELECTOR).get()
+                'type': iphone.xpath(CLASSIFIED_TYPE_SELECTOR).get(),
+                'link': iphone.xpath(LINK_SELECTOR).get()
             }
             NEXT_PAGE_SELECTOR = '/html/body/div[1]/main/div/div/div/div/div[2]/div/div[1]/div/ul/li[@class="ipsPagination_next"]/a/@href'
             next_page = response.xpath(NEXT_PAGE_SELECTOR).get()

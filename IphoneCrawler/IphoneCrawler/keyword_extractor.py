@@ -64,6 +64,7 @@ indexPrice = Dataset[Dataset['price'] == 1].index
 
 # Delete these row indexes from dataFrame
 Dataset.drop(indexPrice, inplace=True)
-print(Dataset.loc[(Dataset['model'] == '6s') & (Dataset['plus_size'] == 1)])
+print(Dataset.loc[(Dataset['model'] == '7') & (Dataset['plus_size'] == 1)].describe())
 
-Dataset.to_csv('output.csv')
+
+Dataset.to_excel('output.xlsx')
