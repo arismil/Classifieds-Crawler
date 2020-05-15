@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import scrapy
-
+from scrapy.utils.response import open_in_browser
 
 class XeiphonespiderSpider(scrapy.Spider):
     name = 'XEIphoneSpider'
@@ -9,6 +9,4 @@ class XeiphonespiderSpider(scrapy.Spider):
     def parse(self, response):
         SET_SELECTOR = '#xeResultsColumn'
         for iphone in response.css(SET_SELECTOR):
-            pass
-
-
+            open_in_browser(response)

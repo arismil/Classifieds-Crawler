@@ -1,13 +1,11 @@
 import re
-import math
-import statistics
+
 import numpy as np
-import scipy.stats
 import pandas
 
 
 def model_extractor(name):
-    model = re.match(r"\b(6s?|7|8|x(s|r)?|11)", name)
+    model = re.match(r"\b(6s?|7|8|x([sr])?|11)", name)
     if model:
         return model.group(0)
     else:
@@ -34,6 +32,7 @@ stop_words = set(noise_words)
 
 # load the Dataset
 Dataset = pandas.read_json('iphone.json')
+
 # lower text
 Dataset['name'] = Dataset['name'].apply(lambda x: x.lower())
 # remove tags
@@ -58,13 +57,8 @@ Dataset['plus_size'] = Dataset['name'].apply(lambda x: size_extractor(x))
 
 Dataset = Dataset.replace(to_replace='None', value=np.nan).dropna()
 Dataset['price'] = Dataset['price'].astype(int)
-
-# Get names of indexes for which column Age has value 30
-indexPrice = Dataset[Dataset['price'] == 1].index
-
-# Delete these row indexes from dataFrame
-Dataset.drop(indexPrice, inplace=True)
-print(Dataset.loc[(Dataset['model'] == '7') & (Dataset['plus_size'] == 1)].describe())
-
+Dataset['date'] = Dataset['date'].apply(lambda x: x.split()[0])
+print(Dataset.dtypes)
 
 Dataset.to_excel('output.xlsx')
+Dataset.to_csv('output.csv')
