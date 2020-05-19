@@ -31,8 +31,8 @@ noise_words = ["iphone", "apple", "i", "phone"]
 stop_words = set(noise_words)
 
 # load the Dataset
-Dataset = pandas.read_json('iphone.json')
-Dataset.to_excel('output1.xlsx')
+Dataset = pandas.read_csv('iphone.csv')
+Dataset.to_excel('outputbefore.xlsx')
 # lower text
 Dataset['name'] = Dataset['name'].apply(lambda x: x.lower())
 # remove tags
@@ -60,7 +60,6 @@ Dataset = Dataset.replace(to_replace='', value=np.nan).dropna()
 Dataset['price'] = Dataset['price'].astype(int)
 
 Dataset['date'] = Dataset['date'].apply(lambda x: x.split()[0])
-print(Dataset)
 
 Dataset.to_excel('output.xlsx')
 Dataset.to_csv('output.csv')
