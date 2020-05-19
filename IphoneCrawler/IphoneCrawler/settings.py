@@ -15,7 +15,7 @@ SPIDER_MODULES = ['IphoneCrawler.spiders']
 NEWSPIDER_MODULE = 'IphoneCrawler.spiders'
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
-USER_AGENT = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:76.0) Gecko/20100101 Firefox/76.0'
+USER_AGENT = 'Dokimastiko Botaki gia Ekpaideftikous skopous foititis Panepistimio Dytikis Attikis - an enoxlei parakalo steilte sto cs141285@uniwa.gr'
 
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = False
@@ -28,7 +28,7 @@ ROBOTSTXT_OBEY = False
 # See also autothrottle settings and docs
 DOWNLOAD_DELAY = 10
 
-DEPTH_LIMIT = 100
+DEPTH_LIMIT = 50
 # The download delay setting will honor only one of:
 # CONCURRENT_REQUESTS_PER_DOMAIN = 16
 # CONCURRENT_REQUESTS_PER_IP = 16
@@ -66,7 +66,7 @@ TELNETCONSOLE_ENABLED = False
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-    'IphoneCrawler.pipelines.IphonecrawlerPipeline': 300,
+    # 'IphoneCrawler.pipelines.IphonecrawlerPipeline': 300,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)

@@ -32,7 +32,7 @@ stop_words = set(noise_words)
 
 # load the Dataset
 Dataset = pandas.read_json('iphone.json')
-
+Dataset.to_excel('output1.xlsx')
 # lower text
 Dataset['name'] = Dataset['name'].apply(lambda x: x.lower())
 # remove tags
@@ -41,8 +41,8 @@ Dataset['name'] = Dataset['name'].apply(lambda x: re.sub("&lt;/?.*?&gt;", " ", x
 Dataset['name'] = Dataset['name'].apply(lambda x: re.sub("[^a-z0-9]+", " ", x))
 # remove decimal part
 Dataset['price'] = Dataset['price'].apply(lambda x: re.sub(",.*", " ", str(x)))
-# remove thousand point
-Dataset['price'] = Dataset['price'].apply(lambda x: re.sub("\.", "", str(x)))
+# remove any non digit
+Dataset['price'] = Dataset['price'].apply(lambda x: re.sub("\D", "", str(x)))
 
 # text cleanup
 for i in range(len(Dataset['name'])):
@@ -50,15 +50,17 @@ for i in range(len(Dataset['name'])):
     text = text.split()
     text = [word for word in text if not word in stop_words]
     text = " ".join(text)
-    Dataset['name'][i] = text
+    Dataset.loc[i, 'name'] = text
 
 Dataset['model'] = Dataset['name'].apply(lambda x: model_extractor(str(x)))
 Dataset['plus_size'] = Dataset['name'].apply(lambda x: size_extractor(x))
 
 Dataset = Dataset.replace(to_replace='None', value=np.nan).dropna()
+Dataset = Dataset.replace(to_replace='', value=np.nan).dropna()
 Dataset['price'] = Dataset['price'].astype(int)
+
 Dataset['date'] = Dataset['date'].apply(lambda x: x.split()[0])
-print(Dataset.dtypes)
+print(Dataset)
 
 Dataset.to_excel('output.xlsx')
 Dataset.to_csv('output.csv')
