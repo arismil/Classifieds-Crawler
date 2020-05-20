@@ -2,6 +2,8 @@ import re
 
 import numpy as np
 import pandas
+import locale
+import mysql.connector
 
 
 def model_extractor(name):
@@ -59,7 +61,16 @@ Dataset = Dataset.replace(to_replace='None', value=np.nan).dropna()
 Dataset = Dataset.replace(to_replace='', value=np.nan).dropna()
 Dataset['price'] = Dataset['price'].astype(int)
 
-Dataset['date'] = Dataset['date'].apply(lambda x: x.split()[0])
+# Dataset['date'] = Dataset['date'].apply(lambda x: x.split()[0])
+locale.setlocale(locale.LC_TIME, ('el_GR', 'UTF-8'))
+Dataset['date'] = pandas.to_datetime(Dataset['date'], format='%d/%m/%Y %I:%M  %p')
+mydb = mysql.connector.connect(
+    host="localhost",
+    user="root",
+    passwd="aris",
+)
 
+print(mydb)
+mydb.close()
 Dataset.to_excel('output.xlsx')
 Dataset.to_csv('output.csv')

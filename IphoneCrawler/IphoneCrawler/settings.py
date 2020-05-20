@@ -15,7 +15,7 @@ SPIDER_MODULES = ['IphoneCrawler.spiders']
 NEWSPIDER_MODULE = 'IphoneCrawler.spiders'
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
-USER_AGENT = 'Dokimastiko Botaki gia Ekpaideftikous skopous foititis Panepistimio Dytikis Attikis - an enoxlei parakalo steilte sto cs141285@uniwa.gr'
+USER_AGENT = 'Dokimastiko  Botaki gia Ekpaideftikous skopous foititis Panepistimio Dytikis Attikis - an enoxlei parakalo steilte sto cs141285@uniwa.gr'
 
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = False
