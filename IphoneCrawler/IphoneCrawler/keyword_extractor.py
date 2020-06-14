@@ -3,7 +3,9 @@ import re
 import numpy as np
 import pandas
 import locale
-import mysql.connector
+from sqlalchemy import create_engine
+
+import pymysql
 
 
 def model_extractor(name):
@@ -15,15 +17,15 @@ def model_extractor(name):
 
 
 def size_extractor(name):
-    pro = re.search(r"pro", name)
+    pro = re.search(r"\bpro\b", name)
     if pro:
         model = 2  # pro model
-        if re.search(r"max", name):
+        if re.search(r"\bmax\b", name):
             model = 3
             return model  # return pro max model
         return model  # return pro model
     else:
-        if re.search(r"plus", name):
+        if re.search(r"\bplus\b", name):
             return 1  # return plus model
         return 0  # return base model
 
@@ -60,17 +62,13 @@ Dataset['plus_size'] = Dataset['name'].apply(lambda x: size_extractor(x))
 Dataset = Dataset.replace(to_replace='None', value=np.nan).dropna()
 Dataset = Dataset.replace(to_replace='', value=np.nan).dropna()
 Dataset['price'] = Dataset['price'].astype(int)
-
-# Dataset['date'] = Dataset['date'].apply(lambda x: x.split()[0])
-locale.setlocale(locale.LC_TIME, ('el_GR', 'UTF-8'))
+Dataset = Dataset[Dataset['price'] > 10]
+locale.setlocale(locale.LC_ALL, 'el_gr')
 Dataset['date'] = pandas.to_datetime(Dataset['date'], format='%d/%m/%Y %I:%M  %p')
-mydb = mysql.connector.connect(
-    host="localhost",
-    user="root",
-    passwd="aris",
-)
+sqlEngine = create_engine('mysql+pymysql://root:Q3DG$38p@127.0.0.1/eshop', pool_recycle=3600)
 
-print(mydb)
-mydb.close()
+dbConnection = sqlEngine.connect()
+Dataset.to_sql('classifieds', con=dbConnection, if_exists='replace', index_label='id')
+dbConnection.close()
 Dataset.to_excel('output.xlsx')
 Dataset.to_csv('output.csv')
