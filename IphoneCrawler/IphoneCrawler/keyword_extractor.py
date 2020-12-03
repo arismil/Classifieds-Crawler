@@ -34,7 +34,7 @@ def size_extractor(name):
 noise_words = ["iphone", "apple", "i", "phone"]
 stop_words = set(noise_words)
 
-# load the Dataset
+# load the Dataset lol
 Dataset = pandas.read_csv('iphones.csv')
 Dataset.to_excel('outputbefore.xlsx')
 # lower text
