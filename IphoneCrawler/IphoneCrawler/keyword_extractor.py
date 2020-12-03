@@ -9,7 +9,7 @@ import pymysql
 
 
 def model_extractor(name):
-    model = re.match(r"\b(6s?|7|8|x([sr])?|11)", name)
+    model = re.match(r"\b(6s?|7|8|x([sr])?|11|12)", name)
     if model:
         return model.group(0)
     else:
@@ -35,7 +35,7 @@ noise_words = ["iphone", "apple", "i", "phone"]
 stop_words = set(noise_words)
 
 # load the Dataset
-Dataset = pandas.read_csv('iphone.csv')
+Dataset = pandas.read_csv('iphones.csv')
 Dataset.to_excel('outputbefore.xlsx')
 # lower text
 Dataset['name'] = Dataset['name'].apply(lambda x: x.lower())
@@ -59,12 +59,16 @@ for i in range(len(Dataset['name'])):
 Dataset['model'] = Dataset['name'].apply(lambda x: model_extractor(str(x)))
 Dataset['plus_size'] = Dataset['name'].apply(lambda x: size_extractor(x))
 
-Dataset = Dataset.replace(to_replace='None', value=np.nan).dropna()
-Dataset = Dataset.replace(to_replace='', value=np.nan).dropna()
-Dataset['price'] = Dataset['price'].astype(int)
-Dataset = Dataset[Dataset['price'] > 10]
+
+#DROP NONE VALUES
+Dataset = Dataset.replace(to_replace='None', value=np.nan)
+Dataset = Dataset.replace(to_replace='', value=np.nan)
+# Dataset['price'] = Dataset['price'].astype(int)
+# Dataset = Dataset[Dataset['price'] > 10]
 locale.setlocale(locale.LC_ALL, 'el_gr')
 Dataset['date'] = pandas.to_datetime(Dataset['date'], format='%d/%m/%Y %I:%M  %p')
+
+
 sqlEngine = create_engine('mysql+pymysql://root:Q3DG$38p@127.0.0.1/eshop', pool_recycle=3600)
 
 dbConnection = sqlEngine.connect()

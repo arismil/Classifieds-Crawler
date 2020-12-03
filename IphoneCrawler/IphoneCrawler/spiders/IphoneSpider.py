@@ -23,11 +23,11 @@ class IphonespiderSpider(scrapy.Spider):
                 'link': iphone.xpath(LINK_SELECTOR).get(),
             }
             yield scrapy.Request(PRODUCT_PAGE_LINK, callback=self.parse_iphone_date, cb_kwargs=iphone_item)
-            # NEXT_PAGE_SELECTOR = '/html/body/div[1]/main/div/div/div/div/div[2]/div/div[1]/div/ul/li[@class="ipsPagination_next"]/a/@href'
-            # next_page = response.xpath(NEXT_PAGE_SELECTOR).get()
-            # if next_page is not None:
-            #
-            #     yield scrapy.Request(next_page,callback=self.parse)
+            NEXT_PAGE_SELECTOR = '/html/body/div[1]/main/div/div/div/div/div[2]/div/div[1]/div/ul/li[@class="ipsPagination_next"]/a/@href'
+            next_page = response.xpath(NEXT_PAGE_SELECTOR).get()
+            if next_page is not None:
+
+                yield scrapy.Request(next_page,callback=self.parse)
 
     def parse_iphone_date(self, response, name, price, type, link):
         date = response.xpath(
