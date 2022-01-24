@@ -18,8 +18,8 @@ from scrapy.exceptions import DropItem
 class IphonecrawlerPipeline(object):
     def process_item(self, item, spider):
 
-        if re.match(r"\d+", item["price"]) is None:  # αν δεν έχει τιμή τότε πέταμα
-            raise DropItem("δεν έχει τιμή")
-        if re.match(r"\d+", item["date"]) is None:  # αν δεν έχει ημερομηνία τότε πέταμα
-            raise DropItem("δεν έχει ημερομηνία")
+        # if re.match(r"\d+", item["price"]) is None:  # αν δεν έχει τιμή τότε πέταμα
+        #     raise DropItem("δεν έχει τιμή")
+        # if re.match(r"\d+", item["date"]) is None:  # αν δεν έχει ημερομηνία τότε πέταμα
+        #     raise DropItem("δεν έχει ημερομηνία")
         return item

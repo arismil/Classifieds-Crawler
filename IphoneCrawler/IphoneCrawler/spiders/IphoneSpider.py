@@ -5,11 +5,11 @@ import scrapy
 
 class IphonespiderSpider(scrapy.Spider):
     name = 'IphoneSpider'
-    start_urls = ['https://www.insomnia.gr/classifieds/category/14-iphone/?filter=classifieds_type_1']
+    start_urls = ['https://www.insomnia.gr/classifieds/category/14-iphone/?filter=classifieds_type_1&sortby=classifieds_adverts.cl_a_date_added']
 
     def parse(self, response):
-
-        SET_SELECTOR = 'li.ipsDataItem'
+/html/body/main/div/div/div/div[3]/div[2]/ol/li[1]/p
+        SET_SELECTOR = 'li.data-ipslazyload'
         for iphone in response.css(SET_SELECTOR):
             PRICE_SELECTOR = './div[1]/p/span/strong/text()'
             NAME_SELECTOR = './div[2]/h4/div/a/text()'
